@@ -7,10 +7,8 @@ ACCESS_TOKEN = input('your access token: ').replace(' ', '').replace('\t', '').r
 def get_github_repositories():
     headers = {'Authorization': f'token {ACCESS_TOKEN}'}
     response = requests.get('https://api.github.com/user/repos', headers=headers)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise Exception(f"Failed to fetch repositories. Status code: {response.status_code}")
+    if response.status_code == 200: return response.json()
+    else: raise Exception(f"Failed to fetch repositories. Status code: {response.status_code}")
 
 def clone_github_repositories(repositories):
     for repo in repositories:
@@ -22,9 +20,8 @@ def clone_github_repositories(repositories):
         except subprocess.CalledProcessError:
             print(f"Failed to clone: {repo_name}")
 
-if __name__ == '__main__':
-    try:
-        repositories = get_github_repositories()
-        clone_github_repositories(repositories)
-    except Exception as e:
-        print(f"Error: {e}")
+try:
+    repositories = get_github_repositories()
+    clone_github_repositories(repositories)
+except Exception as e:
+    print(f"Error: {e}")
